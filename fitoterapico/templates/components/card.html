@@ -1,0 +1,32 @@
+{% comment %}
+Componente reutilizável para exibir um card de fitoterápico
+Parâmetros:
+- fitoterapico: objeto Fitoterapico a ser exibido
+- show_details: booleano que indica se deve mostrar detalhes adicionais (opcional, padrão: False)
+{% endcomment %}
+
+<div class="fitoterapico-card">
+  {% if fitoterapico.foto %}
+    <img src="{{ fitoterapico.foto.url }}" alt="{{ fitoterapico.nome }} - {{ fitoterapico.tipo }}" loading="lazy">
+  {% else %}
+    <p class="no-foto">Imagem não disponível</p>
+  {% endif %}
+  <h2>{{ fitoterapico.nome }}</h2>
+  <p><strong>Tipo:</strong> {{ fitoterapico.tipo }}</p>
+  
+  {% if show_details %}
+    <p><strong>Especie:</strong> {{ fitoterapico.especie }}</p>
+    {% if fitoterapico.familia %}
+      <p><strong>Familia:</strong> {{ fitoterapico.familia }}</p>
+    {% endif %}
+    <p class="card-description"><strong>Descrição:</strong> {{ fitoterapico.descricao|truncatechars:100 }}</p>
+    {% if fitoterapico.preco %}
+      <p><strong>Preço:</strong> R$ {{ fitoterapico.preco }}</p>
+    {% endif %}
+  {% else %}
+    <p>{{ fitoterapico.descricao|truncatechars:50 }}</p>
+    {% if fitoterapico.preco %}
+      <p>R$ {{ fitoterapico.preco }}</p>
+    {% endif %}
+  {% endif %}
+</div>

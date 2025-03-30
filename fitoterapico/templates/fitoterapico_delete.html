@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <style>
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #0096c7;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+      margin: 0 10px;
+    }
+
+    .btn:hover {
+      background-color: #108eb8;
+    }
+
+    .btn-danger {
+      background-color: #d9534f;
+      text-decoration: none !important;
+    }
+
+    .btn-danger:hover {
+      background-color: #d2221c;
+    }
+    
+    .btn-secondary {
+      background-color: #6c757d;
+      text-decoration: none !important;
+    }
+    
+    .btn-secondary:hover {
+      background-color: #5a6268;
+    }
+
+    .error-message {
+      color: #d9534f;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    a {
+      text-decoration: none !important;
+    }
+    
+    /* Container personalizado para a página de exclusão que não é afetado pelas animações */
+    .delete-container {
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      padding: 25px;
+      margin-bottom: 25px;
+      border-top: 4px solid var(--primary-color);
+      /* Desabilitar todas as animações e transformações */
+      transform: none !important;
+      transition: none !important;
+      animation: none !important;
+    }
+    
+    .delete-header {
+      margin-bottom: 20px;
+    }
+    
+    .delete-title {
+      color: var(--primary-dark);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      margin: 0;
+      padding-bottom: 10px;
+    }
+    
+    .delete-body {
+      padding: 10px 0;
+    }
+  </style>
+  <div class="delete-container">
+    <div class="delete-header">
+      <h1 class="delete-title">Deletar Fitoterápico</h1>
+    </div>
+    <div class="delete-body">
+      <p>Tem certeza que deseja deletar o fitoterápico <strong>{{ object.tipo }} {{ object.nome }}</strong>?</p>
+      <form method="post">
+        {% csrf_token %}
+        <div class="buttons-container">
+          <button type="submit" class="btn btn-danger">Deletar Fitoterápico</button>
+          <a href="{% url 'fitoterapico_detail' pk=object.pk %}" class="btn">Cancelar</a>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+# Dependências principais do Django
+Django==5.1.6
+asgiref==3.8.1
+sqlparse==0.5.3
+
+# Banco de dados
+psycopg2==2.9.10  # Para PostgreSQL (opcional)
+
+# Processamento de imagens
+pillow==11.1.0  # Para manipulação de imagens
+
+# Testes e qualidade de código
+pytest==7.4.4
+pytest-django==4.7.0
+pytest-cov==4.1.0
+coverage==7.4.1
+django-nose==1.4.7
+factory-boy==3.3.0
+mock==5.1.0
+
+# Desenvolvimento
+django-debug-toolbar==4.3.0  # Ferramenta de depuração (opcional)
+python-dotenv==1.0.1  # Para variáveis de ambiente (opcional)
+
+# Produção
+gunicorn==22.0.0  # Servidor WSGI para produção (opcional)
+whitenoise==6.6.0  # Para servir arquivos estáticos (opcional)

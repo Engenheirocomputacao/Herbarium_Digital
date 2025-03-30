@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Acessibilidade - Herbárium Digital{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="page-header">
+    <h1>Acessibilidade</h1>
+  </div>
+  
+  <div class="content-section">
+    <p>O Herbárium Digital está comprometido em garantir a acessibilidade digital para todas as pessoas, independentemente de suas habilidades ou deficiências. Estamos constantemente trabalhando para melhorar a experiência de todos os nossos usuários.</p>
+    
+    <h2>Recursos de Acessibilidade</h2>
+    <p>Nossa plataforma inclui os seguintes recursos de acessibilidade:</p>
+    
+    <div class="accessibility-feature">
+      <h3><i class="fas fa-adjust"></i> Alto Contraste</h3>
+      <p>Oferecemos um modo de alto contraste que pode ser ativado clicando no botão "Alto Contraste" no cabeçalho do site. Este recurso melhora a legibilidade para usuários com deficiências visuais.</p>
+    </div>
+    
+    <div class="accessibility-feature">
+      <h3><i class="fas fa-pause-circle"></i> Controle de Animações</h3>
+      <p>Usuários sensíveis a movimentos podem desativar as animações do site clicando no botão "Pausar Animações" no cabeçalho.</p>
+    </div>
+    
+    <div class="accessibility-feature">
+      <h3><i class="fas fa-sign-language"></i> Tradutor de Libras (VLibras)</h3>
+      <p>Integramos o VLibras, uma ferramenta que traduz conteúdos digitais em Português para Língua Brasileira de Sinais (LIBRAS), tornando o site mais acessível para usuários surdos.</p>
+    </div>
+    
+    <div class="accessibility-feature">
+      <h3><i class="fas fa-text-height"></i> Texto Responsivo</h3>
+      <p>Todo o texto do site é responsivo e pode ser ampliado usando as ferramentas padrão do navegador (Ctrl + ou Cmd +) sem perda de funcionalidade.</p>
+    </div>
+    
+    <div class="accessibility-feature">
+      <h3><i class="fas fa-keyboard"></i> Navegação por Teclado</h3>
+      <p>Todos os recursos do site podem ser acessados usando apenas o teclado, sem necessidade de mouse.</p>
+    </div>
+    
+    <h2>Conformidade com Padrões</h2>
+    <p>Estamos empenhados em atender às diretrizes de acessibilidade WCAG 2.1 (Nível AA) e continuar melhorando a acessibilidade do nosso site.</p>
+    
+    <h2>Feedback</h2>
+    <p>Estamos sempre buscando melhorar a acessibilidade do nosso site. Se você encontrar alguma barreira de acessibilidade ou tiver sugestões para melhorias, por favor entre em contato conosco através da nossa <a href="/contato">página de contato</a>.</p>
+  </div>
+</div>
+
+<style>
+  .accessibility-feature {
+    margin-bottom: 25px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary-color);
+  }
+  
+  .accessibility-feature h3 {
+    color: var(--primary-dark);
+    margin-bottom: 10px;
+  }
+  
+  .accessibility-feature i {
+    margin-right: 10px;
+    color: var(--primary-color);
+  }
+</style>
+{% endblock %}

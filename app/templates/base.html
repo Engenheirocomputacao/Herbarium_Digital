@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gerenciamento de fitoterápicos - Aplicação desenvolvida pelos alunos da UNIVESP PJI 310.">
+  <title>{% block title %}{% endblock %}</title>
+  
+  <!-- Fontes e ícones -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --primary-color: #2c8d50;
+      --primary-light: #4eba79;
+      --primary-dark: #105f3c;
+      --secondary-color: #3dc2a6;
+      --accent-color: #ffca55;
+      --tertiary-color: #7f5af0;
+      --danger-color: #e53e3e;
+      --warning-color: #ffca55;
+      --text-light: #ffffff;
+      --text-dark: #2d3748;
+      --text-muted: #718096;
+      --background-light: #f7fafc;
+      --background-card: #ffffff;
+      --border-radius: 12px;
+      --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Nunito', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%);
+      position: relative;
+      color: var(--text-dark);
+      line-height: 1.6;
+      transition: var(--transition);
+      scroll-behavior: smooth;
+    }
+    
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.85);
+      z-index: -1;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+      color: var(--text-light);
+      padding: 20px 0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo i {
+      font-size: 28px;
+      margin-right: 12px;
+      color: var(--accent-color);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    .logo h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .accessibility-controls {
+      display: flex;
+      align-items: center;
+    }
+
+    .contrast-btn, .animation-btn {
+      background-color: rgba(255, 255, 255, 0.2);
+      color: var(--text-light);
+      border: none;
+      padding: 10px 18px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      transition: var(--transition);
+      margin: 0 5px;
+    }
+
+    .contrast-btn:hover, .animation-btn:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .contrast-btn i, .animation-btn i {
+      margin-right: 8px;
+    }
+    
+    .accessibility-controls {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    /* Navigation */
+    nav {
+      background-color: var(--primary-dark);
+      padding: 0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav ul li {
+      position: relative;
+    }
+
+    nav ul li a {
+      color: var(--text-light);
+      text-decoration: none;
+      padding: 18px 20px;
+      display: block;
+      transition: var(--transition);
+      font-weight: 600;
+      position: relative;
+    }
+
+    nav ul li a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 3px;
+      background-color: var(--accent-color);
+      transition: var(--transition);
+      transform: translateX(-50%);
+    }
+
+    nav ul li a:hover::after {
+      width: 70%;
+    }
+
+    nav ul li a:hover, nav ul li a.active-menu-item {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    nav ul li a.active-menu-item::after {
+      width: 70%;
+    }
+
+    nav ul li a i {
+      margin-right: 8px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      color: var(--text-light);
+      padding: 0 15px;
+    }
+
+    .user-info i {
+      margin-right: 8px;
+      font-size: 18px;
+    }
+
+    /* Main Content */
+    main {
+      padding: 40px 0;
+      min-height: calc(100vh - 190px);
+    }
+
+    .card {
+      background-color: var(--background-card);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 25px;
+      margin-bottom: 25px;
+      transition: var(--transition);
+      border-top: 4px solid var(--primary-color);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    .section-title {
+      color: var(--primary-dark);
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--secondary-color);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      position: relative;
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 60px;
+      height: 2px;
+      background-color: var(--accent-color);
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background: var(--primary-dark); /* Cor sólida para melhor contraste */
+      color: var(--text-light);
+      text-decoration: none;
+      border-radius: 30px;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: var(--transition);
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 7px 14px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Indicador de foco para acessibilidade */
+    .btn:focus, a:focus, button:focus, input:focus, select:focus, textarea:focus {
+      outline: 3px solid var(--accent-color);
+      outline-offset: 2px;
+    }
+
+    .btn i {
+      margin-right: 8px;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, var(--secondary-color) 0%, #2aa890 100%);
+      color: var(--text-light);
+    }
+
+    .btn-secondary:hover {
+      background: linear-gradient(135deg, #2aa890 0%, var(--secondary-color) 100%);
+    }
+
+    /* Botão de exclusão (vermelho) */
+    .btn-danger {
+      background: linear-gradient(135deg, var(--danger-color) 0%, #c53030 100%);
+      color: var(--text-light);
+    }
+
+    .btn-danger:hover {
+      background: linear-gradient(135deg, #c53030 0%, var(--danger-color) 100%);
+    }
+
+    /* Botão de cancelar (amarelo) */
+    .btn-warning {
+      background: linear-gradient(135deg, var(--warning-color) 0%, #e6b800 100%);
+      color: var(--text-dark);
+    }
+
+    .btn-warning:hover {
+      background: linear-gradient(135deg, #e6b800 0%, var(--warning-color) 100%);
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, #0a4529 100%);
+      color: var(--text-light);
+      padding: 35px 0;
+      text-align: center;
+    }
+
+    .footer-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .footer-links {
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer-links a {
+      color: var(--text-light);
+      margin: 0 15px;
+      text-decoration: none;
+      transition: var(--transition);
+      position: relative;
+      padding: 5px 0;
+    }
+
+    .footer-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--accent-color);
+      transition: var(--transition);
+    }
+
+    .footer-links a:hover::after {
+      width: 100%;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-color);
+    }
+
+    .social-icons {
+      margin-bottom: 20px;
+    }
+
+    .social-icons a {
+      color: var(--text-light);
+      margin: 0 10px;
+      font-size: 18px;
+      transition: var(--transition);
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .social-icons a:hover {
+      color: var(--primary-dark);
+      background-color: var(--accent-color);
+      transform: translateY(-3px);
+    }
+
+    /* VLibras Widget */
+    .vlibras-container {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      z-index: 1000;
+    }
+
+    .floating-element {
+      position: absolute;
+      pointer-events: none;
+      z-index: -1;
+      opacity: 0.6;
+    }
+
+    .leaf1 {
+      top: 20%;
+      left: 5%;
+      font-size: 30px;
+      color: var(--primary-light);
+      animation: float 15s ease-in-out infinite;
+    }
+
+    .leaf2 {
+      top: 40%;
+      right: 10%;
+      font-size: 25px;
+      color: var(--secondary-color);
+      animation: float 20s ease-in-out infinite reverse;
+    }
+
+    .leaf3 {
+      bottom: 30%;
+      left: 15%;
+      font-size: 20px;
+      color: var(--primary-color);
+      animation: float 18s ease-in-out infinite 2s;
+    }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(10px, 15px) rotate(5deg); }
+      50% { transform: translate(5px, 5px) rotate(-5deg); }
+      75% { transform: translate(-10px, 10px) rotate(2deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    /* Notificações */
+    .notification {
+      position: fixed;
+      top: 80px;
+      right: 20px;
+      padding: 15px 25px;
+      background-color: var(--primary-color);
+      color: var(--text-light);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      animation: slideIn 0.5s ease forwards;
+    }
+
+    .notification i {
+      margin-right: 10px;
+      font-size: 20px;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    /* Animações para elementos que entram na viewport */
+    .animate-on-scroll {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    
+    .animate-on-scroll.animated {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* High Contrast Mode */
+    .high-contrast {
+      --primary-color: #000000;
+      --primary-light: #333333;
+      --primary-dark: #000000;
+      --secondary-color: #ffff00;
+      --accent-color: #ffff00;
+      --danger-color: #ff0000;
+      --warning-color: #ffff00;
+      --text-light: #ffff00;
+      --text-dark: #ffff00;
+      --background-light: #000000;
+      --background-card: #333333;
+    }
+    
+    /* Pause Animations Mode */
+    .pause-animations * {
+      animation-play-state: paused !important;
+      transition: none !important;
+    }
+    
+    .pause-animations .floating-element,
+    .pause-animations .hero-leaf {
+      display: none !important;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      position: relative;
+      background: linear-gradient(135deg, rgba(44, 141, 80, 0.9) 0%, rgba(16, 95, 60, 0.85) 100%), url('https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?ixlib=rb-1.2.1&auto=format&fit=crop&w=1489&q=80') center/cover no-repeat;
+      height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-light);
+      text-align: center;
+      overflow: hidden;
+      margin-bottom: 40px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .hero-content {
+      max-width: 800px;
+      padding: 0 20px;
+      z-index: 2;
+      animation: fadeInUp 1s ease-out;
+    }
+
+    .hero-content h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      font-family: 'Montserrat', sans-serif;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-content p {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+      opacity: 0.9;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .btn-hero {
+      background: var(--accent-color);
+      color: var(--text-dark);
+      font-weight: 700;
+      padding: 15px 30px;
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(255, 202, 85, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .btn-hero:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(255, 202, 85, 0.5);
+    }
+
+    .btn-hero-secondary {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(5px);
+      color: var(--text-light);
+      font-weight: 700;
+      padding: 15px 30px;
+      border-radius: 50px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .btn-hero-secondary:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .hero-decoration {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .hero-leaf {
+      position: absolute;
+      font-size: 40px;
+      color: rgba(255, 255, 255, 0.3);
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+      animation: floatHero 15s ease-in-out infinite;
+    }
+
+    .hero-leaf-1 {
+      top: 15%;
+      left: 10%;
+      font-size: 50px;
+      animation-delay: 0s;
+    }
+
+    .hero-leaf-2 {
+      top: 60%;
+      right: 15%;
+      font-size: 45px;
+      animation-delay: 2s;
+    }
+
+    .hero-leaf-3 {
+      bottom: 20%;
+      left: 20%;
+      font-size: 35px;
+      animation-delay: 1s;
+    }
+
+    .hero-leaf-4 {
+      top: 30%;
+      right: 25%;
+      font-size: 40px;
+      animation-delay: 3s;
+    }
+
+    @keyframes floatHero {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(15px, 15px) rotate(5deg); }
+      50% { transform: translate(7px, -10px) rotate(-5deg); }
+      75% { transform: translate(-15px, 10px) rotate(2deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Melhorias nos cards */
+    .card {
+      background-color: var(--background-card);
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      padding: 25px;
+      margin-bottom: 25px;
+      transition: var(--transition);
+      border-top: 4px solid var(--primary-color);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(44, 141, 80, 0.05) 0%, rgba(61, 194, 166, 0.05) 100%);
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 0;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+      }
+      
+      .accessibility-controls {
+        margin-top: 15px;
+      }
+      
+      .nav-container {
+        flex-direction: column;
+      }
+      
+      nav ul {
+        flex-direction: column;
+        width: 100%;
+      }
+      
+      nav ul li {
+        width: 100%;
+        text-align: center;
+      }
+      
+      nav ul li a::after {
+        bottom: 5px;
+      }
+      
+      .user-info {
+        margin: 15px 0;
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .user-info .btn {
+        margin-top: 10px;
+        margin-left: 0 !important;
+      }
+      
+      .card {
+        padding: 20px;
+      }
+      
+      .floating-element {
+        display: none;
+      }
+
+      .hero-banner {
+        height: 400px;
+      }
+
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+
+      .hero-content p {
+        font-size: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-banner {
+        height: 350px;
+      }
+
+      .hero-content h1 {
+        font-size: 1.8rem;
+      }
+
+      .hero-content p {
+        font-size: 1rem;
+      }
+
+      .btn-hero, .btn-hero-secondary {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="floating-element leaf1"><i class="fas fa-leaf" aria-hidden="true"></i></div>
+  <div class="floating-element leaf2"><i class="fas fa-seedling" aria-hidden="true"></i></div>
+  <div class="floating-element leaf3"><i class="fas fa-leaf" aria-hidden="true"></i></div>
+
+  <header>
+    <div class="header-content">
+      <div class="logo">
+        <i class="fas fa-leaf" aria-hidden="true"></i>
+        <h1>Herbárium Digital</h1>
+      </div>
+      <div class="accessibility-controls">
+        <button class="contrast-btn" onclick="toggleContrast()" aria-label="Alternar modo de alto contraste">
+          <i class="fas fa-adjust" aria-hidden="true"></i>
+          <span>Alto Contraste</span>
+        </button>
+        <button class="animation-btn" onclick="toggleAnimations()" aria-label="Pausar ou retomar animações">
+          <i class="fas fa-pause-circle" aria-hidden="true"></i>
+          <span>Pausar Animações</span>
+        </button>
+      </div>
+    </div>
+  </header>
+  
+  <nav role="navigation" aria-label="Menu principal">
+    <div class="nav-container">
+      <ul>
+        <li><a href="{% url 'home' %}" aria-label="Ir para página inicial"><i class="fas fa-home" aria-hidden="true"></i> Início</a></li>
+        <li><a href="{% url 'fitoterapico_list' %}" aria-label="Ver lista de fitoterápicos"><i class="fas fa-seedling" aria-hidden="true"></i> Fitoterápicos</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'novo_fitoterapico' %}" aria-label="Cadastrar novo fitoterápico"><i class="fas fa-plus-circle" aria-hidden="true"></i> Cadastrar</a></li>
+        <li><a href="{% url 'dashboard' %}" aria-label="Visualizar dashboard"><i class="fas fa-chart-bar" aria-hidden="true"></i> Dashboard</a></li>
+        {% endif %}
+      </ul>
+      
+      <div class="user-info" aria-label="Informações do usuário">
+        {% if user.is_authenticated %}
+          <i class="fas fa-user-circle" aria-hidden="true"></i>
+          <span>Olá, {{ user.username }}</span>
+          <a href="{% url 'logout' %}" class="btn btn-secondary" style="margin-left: 15px;" aria-label="Sair da conta">
+            <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Sair
+          </a>
+        {% else %}
+          <a href="{% url 'login' %}" class="btn" aria-label="Fazer login">
+            <i class="fas fa-sign-in-alt" aria-hidden="true"></i> Login
+          </a>
+          <a href="{% url 'registro' %}" class="btn btn-secondary" style="margin-left: 15px;" aria-label="Cadastrar-se no sistema">
+            <i class="fas fa-user-plus" aria-hidden="true"></i> Cadastre-se
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  {% if request.path == "/" %}
+  <!-- Hero Banner (apenas na página inicial) -->
+  <section class="hero-banner" aria-labelledby="hero-heading">
+    <div class="hero-content">
+      <h1 id="hero-heading">Bem-vindo ao Herbárium Digital</h1>
+      <p>Seu acervo digital de plantas medicinais e fitoterápicos</p>
+      <div class="hero-buttons">
+        <a href="{% url 'fitoterapico_list' %}" class="btn btn-hero" aria-label="Explorar catálogo de fitoterápicos"><i class="fas fa-seedling" aria-hidden="true"></i> Explorar Fitoterápicos</a>
+        {% if not user.is_authenticated %}
+        <a href="{% url 'registro' %}" class="btn btn-hero-secondary" aria-label="Cadastrar-se no sistema"><i class="fas fa-user-plus" aria-hidden="true"></i> Cadastre-se</a>
+        {% endif %}
+      </div>
+    </div>
+    <div class="hero-decoration" aria-hidden="true">
+      <div class="hero-leaf hero-leaf-1"><i class="fas fa-leaf"></i></div>
+      <div class="hero-leaf hero-leaf-2"><i class="fas fa-seedling"></i></div>
+      <div class="hero-leaf hero-leaf-3"><i class="fas fa-leaf"></i></div>
+      <div class="hero-leaf hero-leaf-4"><i class="fas fa-spa"></i></div>
+    </div>
+  </section>
+  {% endif %}
+  
+  <main>
+    <div class="container">
+      {% block content %}
+      <!-- Conteúdo da página será inserido aqui -->
+      {% endblock %}
+    </div>
+  </main>
+  
+  <footer>
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="/sobre" aria-label="Sobre o Herbárium Digital">Sobre</a>
+        <a href="/contato" aria-label="Entre em contato conosco">Contato</a>
+        <a href="/acessibilidade" aria-label="Informações sobre acessibilidade">Acessibilidade</a>
+        <a href="/termos" aria-label="Termos de uso do site">Termos de Uso</a>
+      </div>
+      <div class="social-icons">
+        <a href="https://facebook.com" aria-label="Visite nossa página no Facebook" target="_blank" rel="noopener"><i class="fab fa-facebook" aria-hidden="true"></i></a>
+        <a href="https://instagram.com" aria-label="Siga-nos no Instagram" target="_blank" rel="noopener"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+        <a href="https://twitter.com" aria-label="Siga-nos no Twitter" target="_blank" rel="noopener"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+        <a href="https://youtube.com" aria-label="Visite nosso canal no YouTube" target="_blank" rel="noopener"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+      </div>
+      <p>&copy; 2025 Alunos UNIVESP PJI 310 - Todos os direitos reservados</p>
+    </div>
+  </footer>
+
+  <!-- VLibras - Widget de Acessibilidade para Tradução em Libras -->
+  <div class="vlibras-container">
+    <div vw class="enabled">
+      <div vw-access-button class="active"></div>
+      <div vw-plugin-wrapper>
+        <div vw-plugin-top></div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+  <script>
+    new window.VLibras.Widget('https://vlibras.gov.br/app');
+    
+    function toggleContrast() {
+      document.body.classList.toggle('high-contrast');
+      const contrastButton = document.querySelector('.contrast-btn');
+      if (document.body.classList.contains('high-contrast')) {
+        contrastButton.innerHTML = '<i class="fas fa-adjust" aria-hidden="true"></i><span>Modo Normal</span>';
+        localStorage.setItem('high-contrast', 'true');
+      } else {
+        contrastButton.innerHTML = '<i class="fas fa-adjust" aria-hidden="true"></i><span>Alto Contraste</span>';
+        localStorage.setItem('high-contrast', 'false');
+      }
+    }
+    
+    // Função para pausar/retomar animações
+    function toggleAnimations() {
+      document.body.classList.toggle('pause-animations');
+      const animationButton = document.querySelector('.animation-btn');
+      const animationStatus = document.body.classList.contains('pause-animations');
+      
+      if (animationStatus) {
+        animationButton.innerHTML = '<i class="fas fa-play-circle" aria-hidden="true"></i><span>Retomar Animações</span>';
+      } else {
+        animationButton.innerHTML = '<i class="fas fa-pause-circle" aria-hidden="true"></i><span>Pausar Animações</span>';
+      }
+      
+      localStorage.setItem('pause-animations', animationStatus.toString());
+    }
+
+    // Função para elementos que entram na viewport
+    function initCardAnimations() {
+      const cards = document.querySelectorAll('.card');
+      
+      cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-5px)';
+          this.style.boxShadow = '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0)';
+          this.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)';
+        });
+      });
+    }
+
+    // Função para animar elementos quando entram na viewport
+    function animateOnScroll() {
+      const elements = document.querySelectorAll('.animate-on-scroll');
+      
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animated');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      elements.forEach(element => {
+        observer.observe(element);
+      });
+    }
+
+    // Função para criar notificações
+    function showNotification(message, type = 'info') {
+      const notification = document.createElement('div');
+      notification.className = 'notification';
+      
+      let icon = 'fa-info-circle';
+      if (type === 'success') icon = 'fa-check-circle';
+      if (type === 'warning') icon = 'fa-exclamation-triangle';
+      if (type === 'error') icon = 'fa-times-circle';
+      
+      notification.innerHTML = `<i class="fas ${icon}"></i> ${message}`;
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        notification.style.opacity = '0';
+        setTimeout(() => {
+          notification.remove();
+        }, 500);
+      }, 3000);
+    }
+
+    // Adicionar classe aos itens de menu ativos
+    function setActiveMenuItem() {
+      const currentPath = window.location.pathname;
+      const menuItems = document.querySelectorAll('nav ul li a');
+      
+      menuItems.forEach(item => {
+        const href = item.getAttribute('href');
+        if (href === currentPath || (currentPath.includes(href) && href !== '/')) {
+          item.classList.add('active-menu-item');
+        }
+      });
+    }
+
+    // Inicializar animações quando o documento estiver carregado
+    document.addEventListener('DOMContentLoaded', function() {
+      // Verificar preferência de contraste
+      if (localStorage.getItem('high-contrast') === 'true') {
+        document.body.classList.add('high-contrast');
+        document.querySelector('.contrast-btn').innerHTML = '<i class="fas fa-adjust" aria-hidden="true"></i><span>Modo Normal</span>';
+      }
+      
+      // Verificar preferência de animações
+      if (localStorage.getItem('pause-animations') === 'true') {
+        document.body.classList.add('pause-animations');
+        document.querySelector('.animation-btn').innerHTML = '<i class="fas fa-play-circle" aria-hidden="true"></i><span>Retomar Animações</span>';
+      }
+      
+      initCardAnimations();
+      animateOnScroll();
+      setActiveMenuItem();
+      
+      // Mostrar notificação de boas-vindas na página inicial
+      if (window.location.pathname === '/') {
+        setTimeout(() => {
+          showNotification('Bem-vindo ao Herbárium Digital!', 'success');
+        }, 2000);
+      }
+
+      // Adicionar classe animate-on-scroll aos cards
+      document.querySelectorAll('.card').forEach((card, index) => {
+        card.classList.add('animate-on-scroll');
+        card.style.animationDelay = `${index * 0.1}s`;
+      });
+    });
+  </script>
+  </script>
+</body>
+</html>

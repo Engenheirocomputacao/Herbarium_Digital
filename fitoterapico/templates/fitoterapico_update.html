@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <style>
+    form {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    form h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    table {
+      margin: 0 auto;
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    th, td {
+      padding: 4px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    input[type="text"], input[type="number"], select, textarea {
+      padding: 8px;
+      font-size: 14px;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      width: 100%;
+      max-width: 300px;
+      margin-bottom: 8px;
+      transition: border-bottom-color 0.3s ease-in-out;
+    }
+
+    input[type="text"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
+      outline: none;
+      border-bottom-color: #0096c7;
+    }
+
+    .btn {
+      background-color: #0096c7;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #0096c7;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease-in-out;
+      margin: 0 10px;
+    }
+
+    .btn:hover {
+      background-color: #108eb8;
+    }
+
+    .btn-danger {
+      background-color: #d9534f;
+      text-decoration: none !important;
+    }
+
+    .btn-danger:hover {
+      background-color: #d2221c;
+    }
+
+    .error-message {
+      color: #d9534f;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    .errorlist {
+      color: #d9534f;
+      list-style: none;
+      padding: 0;
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    .errorlist li {
+      margin: 2px 0;
+    }
+
+    .field-error {
+      border-color: #d9534f !important;
+    }
+
+    a {
+      text-decoration: none !important;
+    }
+
+  </style>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h1>Editar Fitoterápico</h1>
+    
+    {% if form.errors %}
+      <div class="alert alert-danger">
+        <h4>Por favor, corrija os seguintes erros:</h4>
+        <ul>
+          {% for field, errors in form.errors.items %}
+            {% for error in errors %}
+              <li>{{ field }}: {{ error }}</li>
+            {% endfor %}
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <table>
+      {% for field in form %}
+        <tr>
+          <th>{{ field.label_tag }}</th>
+          <td>
+            {{ field }}
+            {% if field.errors %}
+              <div class="errorlist">
+                {% for error in field.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              </div>
+            {% endif %}
+            {% if field.help_text %}
+              <small class="help-text">{{ field.help_text }}</small>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+
+    <div>
+      <div class="buttons-container">
+        <input type="submit" value="Salvar Alterações" class="btn btn-primary">
+        <a href="{% url 'fitoterapico_delete' object.pk %}" class="btn btn-danger">Excluir Fitoterápico</a>
+        <a href="{% url 'fitoterapico_list' %}" class="btn btn-secondary">Cancelar</a>
+      </div>
+    </div>
+  </form>
+
+  <script>
+    // Adiciona classe de erro aos campos com erro
+    document.addEventListener('DOMContentLoaded', function() {
+      const errorFields = document.querySelectorAll('.errorlist');
+      errorFields.forEach(function(errorField) {
+        const input = errorField.previousElementSibling;
+        if (input) {
+          input.classList.add('field-error');
+        }
+      });
+    });
+  </script>
+{% endblock %}

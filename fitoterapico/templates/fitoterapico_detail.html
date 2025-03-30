@@ -1,0 +1,122 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <style>
+    
+    .fitoterapico-card {
+      background-color: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      overflow: hidden;
+      text-align: center;
+      transition: all 0.3s ease;
+      max-width: 500px;
+      margin: 20px auto 0;
+      margin-bottom: 20px;
+      border: 1px solid rgba(44, 141, 80, 0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .fitoterapico-card:hover {
+      cursor: pointer;
+      box-shadow: 0 12px 20px rgba(44, 141, 80, 0.3);
+      transform: translateY(-5px);
+    }
+
+    .fitoterapico-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .fitoterapico-card h2 {
+      font-size: 1.5rem;
+      margin: 10px;
+      color: var(--primary-color);
+    }
+
+    .fitoterapico-card p {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      padding: 0 15px;
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      font-size: 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 0 10px;
+      box-shadow: 0 4px 10px rgba(44, 141, 80, 0.3);
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+      box-shadow: 0 6px 15px rgba(44, 141, 80, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #d9534f 0%, #c9302c 100%);
+      text-decoration: none !important;
+      box-shadow: 0 4px 10px rgba(217, 83, 79, 0.3);
+    }
+
+    .btn-danger:hover {
+      background: linear-gradient(135deg, #c9302c 0%, #d9534f 100%);
+      box-shadow: 0 6px 15px rgba(217, 83, 79, 0.4);
+    }
+
+    .error-message {
+      color: #d9534f;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    a {
+      text-decoration: none !important;
+    }
+  </style>
+  <div class="fitoterapico-card">
+    {% if object.foto %}
+      <img src="{{ object.foto.url }}" alt="{{ object.nome }} - {{ object.tipo }}" loading="lazy">
+    {% else %}
+        <p class="no-foto">Imagem não disponível</p>
+    {% endif %}
+      <h2>{{ object.nome }} {{ object.tipo }}</h2>
+      <p><strong>Tipo:</strong> {{ object.tipo }}</p>
+      <p><strong>Especie:</strong> {{ object.especie }}</p>
+      <p><strong>Familia:</strong> {{ object.familia }}</p>
+      <p><strong>Descrição:</strong> {{ object.descricao }}</p>
+      <p><strong>Propriedades:</strong> {{ object.propriedades }}</p>
+      <p><strong>Indicação:</strong> {{ object.indicacao }}</p>
+      <p><strong>Modo de utilização:</strong> {{ object.modo_uso }}</p>
+      <p><strong>Efeito Colateral:</strong> {{ object.efeito_colateral }}</p>
+      <p><strong>Indicação:</strong> {{ object.indicacao }}</p>
+      {% if object.bio %}
+        <p><strong>Bio:</strong> {{ object.bio }}</p>
+      {% endif %}
+  </div>
+  {% if user.is_authenticated %}
+  <div class="buttons-container">
+    <a href="{% url 'fitoterapico_update' object.pk %}" class="btn btn-primary">Editar</a>
+    <a href="{% url 'fitoterapico_delete' object.pk %}" class="btn btn-danger">Excluir</a>
+  </div>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,372 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <style>
+    
+    .fitoterapico-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin: 0 auto;
+      max-width: 1200px;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .fitoterapico-card {
+      background-color: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+      border-radius: 15px;
+      overflow: hidden;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(44, 141, 80, 0.2);
+    }
+
+    .fitoterapico-card:hover {
+        cursor: pointer;
+        box-shadow: 0 12px 20px rgba(44, 141, 80, 0.3);
+        transform: translateY(-5px);
+    }
+
+    .fitoterapico-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .fitoterapico-card h3 {
+        font-size: 20px;
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+
+    .fitoterapico-card h2 {
+      font-size: 1.5rem;
+      margin: 10px;
+      color: var(--primary-color);
+    }
+
+    .fitoterapico-card p {
+      font-size: 1rem;
+      margin-bottom: 10px;
+      padding: 0 15px;
+    }
+
+    @media (max-width: 768px) {
+      .fitoterapico-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .search-group {
+        max-width: 100%;
+        min-width: 100%;
+      }
+      
+      .search-row {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+
+    form {
+        display: block;
+        margin-bottom: 20px;
+        text-align: center;
+        padding: 20px;
+    }
+
+    input[type="text"], select, input[type="number"] {
+        padding: 12px 15px;
+        font-size: 16px;
+        border: none;
+        border-radius: 30px;
+        width: 100%;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        background-color: white;
+    }
+
+    input[type="text"]:focus, select:focus, input[type="number"]:focus {
+        outline: none;
+        box-shadow: 0 3px 15px rgba(44, 141, 80, 0.3);
+        transform: translateY(-2px);
+    }
+
+    button[type="submit"], .btn {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        color: #fff;
+        border: none;
+        padding: 12px 25px;
+        font-size: 16px;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 10px rgba(44, 141, 80, 0.3);
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    button[type="submit"]:hover, .btn:hover {
+        background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+        box-shadow: 0 6px 15px rgba(44, 141, 80, 0.4);
+        transform: translateY(-2px);
+    }
+
+    a {
+      font-size: 18px;
+      color: #333;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #0096c7;
+    }
+
+    .pagination {
+      text-align: center;
+      margin: 20px 0;
+      padding: 10px;
+    }
+
+    .pagination a {
+      color: #0096c7;
+      padding: 8px 16px;
+      text-decoration: none;
+      border: 1px solid #ddd;
+      margin: 0 4px;
+      border-radius: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .pagination a:hover {
+      background-color: #0096c7;
+      color: white;
+      border-color: #0096c7;
+    }
+
+    .pagination .current {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin: 0 4px;
+    }
+  </style>
+
+  <style>
+    .search-form {
+      max-width: 800px;
+      margin: 0 auto 20px;
+      padding: 25px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1;
+      border: 1px solid rgba(44, 141, 80, 0.2);
+      box-sizing: border-box;
+    }
+    
+    .search-form h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      text-align: center;
+      color: var(--primary-color);
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .search-form h3:after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary-light), var(--primary-dark));
+      border-radius: 3px;
+    }
+    
+    .search-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-bottom: 15px;
+      justify-content: space-between;
+    }
+    
+    .search-group {
+      flex: 1;
+      min-width: 200px;
+      max-width: 48%;
+    }
+    
+    .search-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      text-align: left;
+    }
+    
+    .search-actions {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .btn-reset {
+      background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+      box-shadow: 0 4px 10px rgba(108, 117, 125, 0.3);
+    }
+    
+    .btn-reset:hover {
+      background: linear-gradient(135deg, #495057 0%, #6c757d 100%);
+      box-shadow: 0 6px 15px rgba(108, 117, 125, 0.4);
+    }
+    
+    .search-toggle {
+      text-align: center;
+      margin-bottom: 15px;
+      cursor: pointer;
+      color: var(--primary-color);
+      font-weight: 600;
+      padding: 8px 15px;
+      border-radius: 20px;
+      display: inline-block;
+      transition: all 0.3s ease;
+      background-color: rgba(44, 141, 80, 0.1);
+    }
+    
+    .search-toggle:hover {
+      background-color: rgba(44, 141, 80, 0.2);
+      transform: translateY(-2px);
+    }
+    
+    .advanced-search {
+      display: none;
+      width: 100%;
+    }
+    
+    .advanced-search.show {
+      display: block;
+    }
+    
+    .advanced-search .search-group {
+      max-width: 100%;
+      width: 100%;
+    }
+  </style>
+  
+  <form method="GET" action="{% url 'fitoterapico_list' %}" class="search-form">
+    <h3>Buscar Fitoterápicos</h3>
+    
+    <div class="search-row">
+      <div class="search-group">
+        <label for="search">Nome:</label>
+        <input type="text" id="search" name="search" placeholder="Buscar por nome..." value="{{ search }}">
+      </div>
+      
+      <div class="search-group">
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" name="tipo">
+          <option value="">Todos os tipos</option>
+          {% for tipo in tipos %}
+            <option value="{{ tipo.id }}" {% if tipo_selecionado == tipo.id|stringformat:'i' %}selected{% endif %}>{{ tipo.nome }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    
+    <div class="search-toggle" onclick="toggleAdvancedSearch()">
+      <span id="toggle-text">Mostrar filtros avançados</span> <i class="fas fa-chevron-down" id="toggle-icon"></i>
+    </div>
+    
+    <div class="advanced-search" id="advanced-search">
+      <div class="search-row">
+        <div class="search-group">
+          <label for="indicacao">Indicação:</label>
+          <input type="text" id="indicacao" name="indicacao" placeholder="Buscar por indicação..." value="{{ indicacao }}">
+        </div>
+      </div>
+    </div>
+    
+    <div class="search-actions">
+      <button type="submit" class="btn"><i class="fas fa-search"></i> Buscar</button>
+      <a href="{% url 'fitoterapico_list' %}" class="btn btn-reset"><i class="fas fa-undo"></i> Limpar</a>
+    </div>
+  </form>
+  
+  <script>
+    function toggleAdvancedSearch() {
+      const advancedSearch = document.getElementById('advanced-search');
+      const toggleText = document.getElementById('toggle-text');
+      const toggleIcon = document.getElementById('toggle-icon');
+      
+      advancedSearch.classList.toggle('show');
+      
+      if (advancedSearch.classList.contains('show')) {
+        toggleText.textContent = 'Ocultar filtros avançados';
+        toggleIcon.classList.remove('fa-chevron-down');
+        toggleIcon.classList.add('fa-chevron-up');
+      } else {
+        toggleText.textContent = 'Mostrar filtros avançados';
+        toggleIcon.classList.remove('fa-chevron-up');
+        toggleIcon.classList.add('fa-chevron-down');
+      }
+    }
+  </script>
+
+  <div class="fitoterapico-grid">
+    {% if fitoterapico %}
+      {% for fitoterapico in fitoterapico %}
+        <a href="{% url 'fitoterapico_detail' fitoterapico.pk %}">
+          <div class="fitoterapico-card">
+            {% if fitoterapico.foto %}
+              <img src="{{ fitoterapico.foto.url }}" alt="{{ fitoterapico.nome }} - {{ fitoterapico.tipo }}" loading="lazy">
+            {% else %}
+              <p class="no-foto">Imagem não disponível</p>
+            {% endif %}
+            <h2>{{ fitoterapico.nome }} {{ fitoterapico.tipo }}</h2>
+            <p><strong>Indicação:</strong> {{ fitoterapico.indicacao|truncatechars:100 }}</p>
+          </div>
+        </a>
+      {% endfor %}
+    {% else %}
+      <p class="no-results">Nenhum fitoterapico encontrado.</p>
+    {% endif %}
+  </div>
+
+  {% if is_paginated %}
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?page=1{% if search %}&search={{ search }}{% endif %}">&laquo; Primeira</a>
+      <a href="?page={{ page_obj.previous_page_number }}{% if search %}&search={{ search }}{% endif %}">Anterior</a>
+    {% endif %}
+    
+    {% for num in page_obj.paginator.page_range %}
+      {% if page_obj.number == num %}
+        <span class="current">{{ num }}</span>
+      {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+        <a href="?page={{ num }}{% if search %}&search={{ search }}{% endif %}">{{ num }}</a>
+      {% endif %}
+    {% endfor %}
+    
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}{% if search %}&search={{ search }}{% endif %}">Próxima</a>
+      <a href="?page={{ page_obj.paginator.num_pages }}{% if search %}&search={{ search }}{% endif %}">Última &raquo;</a>
+    {% endif %}
+  </div>
+  {% endif %}
+
+{% endblock %}
