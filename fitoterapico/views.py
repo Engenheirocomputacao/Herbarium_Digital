@@ -10,7 +10,7 @@ class FitoterapicoListView(ListView):
     model = Fitoterapico
     template_name = 'fitoterapico.html'
     context_object_name = 'fitoterapico'
-    paginate_by = 9
+    paginate_by = 6
 
     def get_queryset(self):
         fitoterapico = super().get_queryset().order_by('nome')

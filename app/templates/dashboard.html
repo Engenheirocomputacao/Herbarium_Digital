@@ -143,6 +143,12 @@
   </div>
 </div>
 
+<!-- Serializar dados do Django para JavaScript -->
+{{ tipos_data|json_script:"tipos-data" }}
+{{ preco_medio_por_tipo|json_script:"preco-medio-data" }}
+{{ inventario_historico|json_script:"inventario-data" }}
+{{ distribuicao_precos|json_script:"distribuicao-precos-data" }}
+
 <!-- Incluir Chart.js via CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -167,25 +173,29 @@
   }
 
   // Dados para o gráfico de fitoterápicos por tipo
-  const tiposData = {{ tipos_data|safe }};
-  const tiposLabels = tiposData.map(item => `${item.tipo__nome} (${item.percentage}%)`);
+  const tiposData = JSON.parse(document.getElementById('tipos-data').textContent);
+  const tiposLabels = tiposData.map(item => {
+    const nome = item.tipo__nome;
+    const percentage = item.percentage;
+    return `${nome} (${percentage.toFixed(1)}%)`;
+  });
   const tiposCounts = tiposData.map(item => item.count);
   const tiposColors = tiposLabels.map((_, index) => getColor(index));
 
   // Dados para o gráfico de preço médio por tipo
-  const precoMedioData = {{ preco_medio_por_tipo|safe }};
+  const precoMedioData = JSON.parse(document.getElementById('preco-medio-data').textContent);
   const precoMedioLabels = precoMedioData.map(item => item.tipo__nome);
   const precoMedioValues = precoMedioData.map(item => item.avg_price);
   const precoMedioColors = precoMedioLabels.map((_, index) => getColor(index));
 
   // Dados para o gráfico de evolução do inventário
-  const inventarioData = {{ inventario_historico|safe }};
+  const inventarioData = JSON.parse(document.getElementById('inventario-data').textContent);
   const inventarioDates = inventarioData.map(item => item.data);
   const inventarioCounts = inventarioData.map(item => item.total_count);
   const inventarioValues = inventarioData.map(item => item.total_value);
 
   // Dados para o gráfico de distribuição de preços
-  const distribuicaoPrecosData = {{ distribuicao_precos|safe }};
+  const distribuicaoPrecosData = JSON.parse(document.getElementById('distribuicao-precos-data').textContent);
   const distribuicaoPrecosLabels = distribuicaoPrecosData.map(item => item.label);
   const distribuicaoPrecosCounts = distribuicaoPrecosData.map(item => item.count);
   const distribuicaoPrecosColors = distribuicaoPrecosLabels.map((_, index) => getColor(index));
@@ -212,9 +222,9 @@
           callbacks: {
             label: function(context) {
               const originalLabel = tiposData[context.dataIndex].tipo__nome;
-              const value = context.raw || 0;
+              const value = context.raw;
               const percentage = tiposData[context.dataIndex].percentage;
-              return `${originalLabel}: ${value} (${percentage}%)`;
+              return `${originalLabel}: ${value} (${percentage.toFixed(1)}%)`;
             }
           }
         }
@@ -251,7 +261,8 @@
         tooltip: {
           callbacks: {
             label: function(context) {
-              return 'R$ ' + context.raw.toFixed(2);
+              const value = context.raw;
+              return 'R$ ' + value.toFixed(2);
             }
           }
         }
@@ -326,11 +337,12 @@
         tooltip: {
           callbacks: {
             label: function(context) {
-              const label = context.dataset.label || '';
+              const label = context.dataset.label;
+              const value = context.raw;
               if (label === 'Valor Total (R$)') {
-                return label + ': R$ ' + context.raw.toFixed(2);
+                return label + ': R$ ' + value.toFixed(2);
               }
-              return label + ': ' + context.raw;
+              return label + ': ' + value;
             }
           }
         }

@@ -65,11 +65,11 @@ def dashboard_view(request):
     
     # Dados para o gráfico de distribuição de preços
     faixas_preco = [
-        {'min': 0, 'max': 50, 'label': 'R$0-50'},
-        {'min': 50, 'max': 100, 'label': 'R$50-100'},
-        {'min': 100, 'max': 150, 'label': 'R$100-150'},
-        {'min': 150, 'max': 200, 'label': 'R$150-200'},
-        {'min': 200, 'max': float('inf'), 'label': 'R$200+'},
+        {'min': 0, 'max': 10, 'label': 'R$0-10'},
+        {'min': 11, 'max': 20, 'label': 'R$11-20'},
+        {'min': 21, 'max': 30, 'label': 'R$21-30'},
+        {'min': 31, 'max': 40, 'label': 'R$31-40'},
+        {'min': 50, 'max': float('inf'), 'label': 'R$50+'},
     ]
     
     distribuicao_precos = []
